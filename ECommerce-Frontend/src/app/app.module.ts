@@ -6,14 +6,17 @@ import { ProductListComponent } from './components/product-list/product-list.com
 import { ProductService } from './services/product.service';
 import {RouterModule,Routes} from '@angular/router';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { ProductCategoryComponent } from './components/product-category/product-category.component'
+import { ProductCategoryComponent } from './components/product-category/product-category.component';
+import { SearchComponent } from './components/search/search.component'
 
 
 const routes: Routes= [
   {path:'products',component:ProductListComponent},
+  {path:'search/:keyword',component:ProductListComponent},
   {path:'category/:id',component:ProductListComponent},
   {path:'',redirectTo:'/products',pathMatch:'full'},
   {path:'**',component:PageNotFoundComponent}
+ ,
 ];
 
 @NgModule({
@@ -21,7 +24,8 @@ const routes: Routes= [
     AppComponent,
     ProductListComponent,
     PageNotFoundComponent,
-    ProductCategoryComponent
+    ProductCategoryComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
