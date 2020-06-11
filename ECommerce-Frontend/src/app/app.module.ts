@@ -4,15 +4,28 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { ProductService } from './services/product.service';
+import {RouterModule,Routes} from '@angular/router';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component'
+
+
+const routes: Routes= [
+  {path:'products',component:ProductListComponent},
+  {path:'category/:id',component:ProductListComponent},
+  {path:'',redirectTo:'/products',pathMatch:'full'},
+  {path:'**',component:PageNotFoundComponent}
+];
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProductListComponent
+    ProductListComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
-    HttpClientModule],
+    HttpClientModule,
+    RouterModule.forRoot(routes)
+  ],
   providers: [
     ProductService
   ],
