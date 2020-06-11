@@ -5,7 +5,8 @@ import { AppComponent } from './app.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { ProductService } from './services/product.service';
 import {RouterModule,Routes} from '@angular/router';
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component'
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { ProductCategoryComponent } from './components/product-category/product-category.component'
 
 
 const routes: Routes= [
@@ -19,7 +20,8 @@ const routes: Routes= [
   declarations: [
     AppComponent,
     ProductListComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ProductCategoryComponent
   ],
   imports: [
     BrowserModule,
