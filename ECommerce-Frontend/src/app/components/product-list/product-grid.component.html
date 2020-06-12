@@ -1,38 +1,57 @@
 <div class="row">
-
     <div class="col-lg-3">
 
 
         <app-product-category></app-product-category>
     </div> <!-- /.row -->
+    <div class="col-lg-9">
 
-        <div class="col-lg-9">
+        <div class="row">
 
-
-
-            <div class="row">
-
-                <div class="col-lg-4 col-md-6 mb-4" *ngFor="let product of products">
-                    <div class="card h-100">
-                        <a href="#"><img class="card-img-top img-responsive" [src]="product.imageUrl" alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href="#">{{product.name}}</a>
-                            </h4>
-                            <h5>{{product.unitPrice | currency: 'INR'}}</h5>
-                            <p class="card-text text-truncate">{{product.description}}</p>
-                        </div>
-                        <div class="card-footer">
-                            <button class="btn btn-primary float-right">Add to Cart</button>
-                        </div>
+            <div class="col-lg-4 col-md-6 mb-4" *ngFor="let product of products">
+                <div class=" card h-100">
+                    <a routerLink="/products/{{product.id}}"><img class="card-img-top img-responsive"
+                            [src]="product.imageUrl" alt=""></a>
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            <a routerLink="/products/{{product.id}}">{{product.name}}</a>
+                        </h4>
+                        <h5>{{product.unitPrice | currency: 'INR'}}</h5>
+                        <p class="card-text text-truncate">{{product.description}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary float-right">Add to Cart</button>
                     </div>
                 </div>
-                <div *ngIf="products?.length == 0" class="col-md-12 alert alert-warning">
-                    No Products Found
+            </div>
+        </div>
+        <div *ngIf="products?.length == 0" class="col-md-12 alert alert-warning">
+            No Products Found
+        </div>
+    </div>
+    <!-- pagination selector -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+
+                <div class="col-md-4">
+                    <span class="mr-2">Page Size:</span>
+                </div>
+                <div class="col-md-8">
+                    <select (change)="updatePageSize($event.target.value)" class="form-control-sm" style="width: 20%;">
+                        <option selected>5</option>
+                        <option>10</option>
+                        <option>20</option>
+                        <option>50</option>
+                    </select>
                 </div>
             </div>
-
-
         </div>
-        <!-- /.col-lg-9 -->
+        <div class="col-md-6" >
+            <ngb-pagination [(page)]="currentPage" [pageSize]="pageSize" [collectionSize]="totalRecords"
+                (pageChange)="listProducts()"></ngb-pagination>
+        </div>
+    </div>
 </div>
+<!-- /.col-lg-9 -->
+<!-- </div> -->
