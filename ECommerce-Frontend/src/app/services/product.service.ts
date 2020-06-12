@@ -31,11 +31,11 @@ export class ProductService {
         map(Response => Response._embedded.productCategory)
       );
     }
-    searchProducts(keyword:string): Observable<Product[]>
+    searchProducts(keyword:string,currentPage:number,pageSize:number): Observable<GetResponseProducts>
     {
-      const searchUrl =`${this.baseUrl}/search/searchbykeyword?name=${keyword}`;
-      return this.getProductsList(searchUrl);
-    };
+      const searchUrl =`${this.baseUrl}/search/searchbykeyword?name=${keyword}&page=${currentPage}&size=${pageSize}`;
+      return this.httpClient.get<GetResponseProducts>(searchUrl); 
+      };
     get(productId: number):Observable<Product>{
       const productDetailsUrl = `${this.baseUrl}/${productId}`;
       return this.httpClient.get<Product>(productDetailsUrl);

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/common/product';
 import { ProductService } from 'src/app/services/product.service';
 import { ActivatedRoute } from '@angular/router';
+import {NgbPaginationConfig} from "@ng-bootstrap/ng-bootstrap"
 
 @Component({
   selector: 'app-product-list',
@@ -12,6 +13,7 @@ export class ProductListComponent implements OnInit {
   products: Product[]=[];
   currentCategoryId: number=1;
   searchMode: boolean=false;
+  previousCategory: number =1;
   //new properties for server side paging.
 
   currentPage :number = 1;
@@ -22,7 +24,11 @@ export class ProductListComponent implements OnInit {
 
 
   constructor(private _productservice: ProductService,
-              private _activatedRoute: ActivatedRoute) { }
+              private _activatedRoute: ActivatedRoute,
+              _config:NgbPaginationConfig) { 
+                _config.maxSize=3;
+                _config.boundaryLinks = true;
+              }
 
   ngOnInit(): void {
     this._activatedRoute.paramMap.subscribe(()=>{
@@ -33,7 +39,8 @@ export class ProductListComponent implements OnInit {
   
   updatePageSize(pageSize:  number)
   {
-    
+    this.pageSize= pageSize;
+    this.currentPage =1;
     this.listProducts();
   }
   listProducts(){
@@ -55,7 +62,11 @@ export class ProductListComponent implements OnInit {
     }else{
       this.currentCategoryId=1;
     }
-
+    //setting up the page number to ne on category change.
+    if(this.previousCategory != this.currentCategoryId){
+      this.currentPage = 1;
+    }
+    this.previousCategory=this.currentCategoryId;
     this._productservice.getProducts(this.currentCategoryId,this.currentPage-1,this.pageSize).subscribe(
      
            this.processPaginate()
@@ -65,11 +76,9 @@ export class ProductListComponent implements OnInit {
   {
     const keyword:string =this._activatedRoute.snapshot.paramMap.get('keyword');
 
-    this._productservice.searchProducts(keyword).subscribe(
-      data =>{
-        this.products = data;
-      }
-    )
+    this._productservice.searchProducts(keyword,this.currentPage-1,this.pageSize).subscribe(
+      this.processPaginate()
+    );
 
   
  }
